@@ -90,11 +90,18 @@ public class BookDetailsActivity extends AppCompatActivity {
         bookTitle.setText(bookInfo.getTitle());
         bookCompleteTitle.setText(bookInfo.getTitle());
 
-        Glide
-                .with(this)
-                .load(bookInfo.getThumbnail())
-                .into(bookCover);
+        if (bookInfo.getThumbnail().equals("N/A")) {
 
+            Glide
+                    .with(this)
+                    .load(R.drawable.book_cover)
+                    .into(bookCover);
+        } else {
+            Glide
+                    .with(this)
+                    .load(bookInfo.getThumbnail())
+                    .into(bookCover);
+        }
         StringBuilder b = new StringBuilder();
         String[] authors = bookInfo.getAuthors();
         for (int i = 0; i < authors.length; i++) {

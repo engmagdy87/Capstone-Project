@@ -61,13 +61,11 @@ public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookIt
 
     @Override
     public void onBindViewHolder(BookItemAdapterViewHolder holder, int position) {
-//        Picasso.with(context).load(booksData.get(position).getPosterPath()).into(holder.bookPoster);
         Glide
                 .with(context)
                 .load(booksData.get(position).getThumbnail())
-//                .apply(new RequestOptions()
-//                        .override(400, 200)
-//                        .placeholder(logo))
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.book_cover))
                 .into(holder.bookPoster);
     }
 
