@@ -27,7 +27,18 @@ public class BookDetailsActivity extends AppCompatActivity {
     private ImageView addFavBtn;
     private ImageView bookCover;
 
+    String addFavTag;
     BookInfo bookInfo;
+
+    private static final String ONSAVEINSTANCESTATE_BOOK = "book";
+    private static final String ONSAVEINSTANCESTATE_ADDFAV = "add_fav";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(ONSAVEINSTANCESTATE_BOOK, bookInfo);
+        outState.putString(ONSAVEINSTANCESTATE_ADDFAV, addFavTag);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +60,30 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         bookCover = findViewById(R.id.photo);
 
-        Intent myIntent = getIntent();
-        Bundle extras = myIntent.getExtras();
-        if (extras != null) {
-            if (extras.containsKey("book")) {
-                bookInfo = myIntent.getParcelableExtra("book");
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ONSAVEINSTANCESTATE_BOOK)) {
+                bookInfo = savedInstanceState
+                        .getParcelable(ONSAVEINSTANCESTATE_BOOK);
+                addFavTag = savedInstanceState
+                        .getString(ONSAVEINSTANCESTATE_ADDFAV);
+                if (addFavTag.equals("star_off")) {
+                    addFavBtn.setTag("star_off");
+                    addFavBtn.setImageResource(R.drawable.star_off);
+                } else {
+                    addFavBtn.setTag("star_on");
+                    addFavBtn.setImageResource(R.drawable.star_on);
+                }
+            }
+        } else {
+            addFavTag = "star_off";
+            addFavBtn.setTag(addFavTag);
+
+            Intent myIntent = getIntent();
+            Bundle extras = myIntent.getExtras();
+            if (extras != null) {
+                if (extras.containsKey("book")) {
+                    bookInfo = myIntent.getParcelableExtra("book");
+                }
             }
         }
 
@@ -100,9 +130,11 @@ public class BookDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (addFavBtn.getTag().toString().equals("star_off")) {
                     addFavBtn.setTag("star_on");
+                    addFavTag = "star_on";
                     addFavBtn.setImageResource(R.drawable.star_on);
                 } else {
                     addFavBtn.setTag("star_off");
+                    addFavTag = "star_off";
                     addFavBtn.setImageResource(R.drawable.star_off);
                 }
             }

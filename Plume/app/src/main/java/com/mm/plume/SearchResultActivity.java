@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.mm.plume.adapters.BookItemAdapter;
@@ -17,29 +18,53 @@ import java.util.ArrayList;
 
 public class SearchResultActivity extends AppCompatActivity implements BookItemAdapter.BookItemAdapterOnClickHandler {
     private RecyclerView recyclerView;
-    private BookItemAdapter bookAdapter = new BookItemAdapter(this,  this);
+    private BookItemAdapter bookAdapter = new BookItemAdapter(this, this);
     private ArrayList<BookInfo> booksData;
+    private String activityTitle;
+    private static final String ONSAVEINSTANCESTATE_BOOKS = "books";
+    private static final String ONSAVEINSTANCESTATE_TITLE = "title";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ONSAVEINSTANCESTATE_BOOKS, booksData);
+        outState.putString(ONSAVEINSTANCESTATE_TITLE, activityTitle);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
         recyclerView = findViewById(R.id.recyclerview_book);
-        StaggeredGridLayoutManager stagGridLayoutManager = new StaggeredGridLayoutManager(2,1);
+        StaggeredGridLayoutManager stagGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         recyclerView.setLayoutManager(stagGridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(bookAdapter);
         recyclerView.setVisibility(View.VISIBLE);
 
-        Intent myIntent = getIntent();
-        Bundle extras = myIntent.getExtras();
-        if (extras != null) {
-            if (extras.containsKey("booksData")) {
-                booksData = myIntent.getParcelableArrayListExtra("booksData");
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ONSAVEINSTANCESTATE_BOOKS)) {
+                booksData = savedInstanceState
+                        .getParcelableArrayList(ONSAVEINSTANCESTATE_BOOKS);
+                activityTitle = savedInstanceState
+                        .getString(ONSAVEINSTANCESTATE_TITLE);
+
                 bookAdapter.setBookData(booksData);
+                getSupportActionBar().setTitle(activityTitle);
             }
-            if (extras.containsKey("searchKeyword")) {
-                getSupportActionBar().setTitle(myIntent.getStringExtra("searchKeyword"));
+        } else {
+            Intent myIntent = getIntent();
+            Bundle extras = myIntent.getExtras();
+            if (extras != null) {
+                if (extras.containsKey("booksData")) {
+                    booksData = myIntent.getParcelableArrayListExtra("booksData");
+                    bookAdapter.setBookData(booksData);
+                }
+                if (extras.containsKey("searchKeyword")) {
+                    activityTitle = myIntent.getStringExtra("searchKeyword");
+                    getSupportActionBar().setTitle(activityTitle);
+                }
             }
         }
     }
@@ -52,7 +77,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         Intent bookDetails = new Intent(context, destinationActivity);
         Bundle extras = new Bundle();
 
-        extras.putParcelable("book",book);
+        extras.putParcelable("book", book);
         bookDetails.putExtras(extras);
         startActivity(bookDetails);
     }

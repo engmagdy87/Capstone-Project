@@ -50,7 +50,6 @@
                         android:layout_width="24dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/fab_margin"
-                        android:tag="star_off"
                         android:elevation="6dp"
                         android:layout_gravity="right"
                         android:src="@drawable/star_off"

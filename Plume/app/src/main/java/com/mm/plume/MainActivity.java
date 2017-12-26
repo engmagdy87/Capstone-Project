@@ -30,6 +30,18 @@ public class MainActivity extends AppCompatActivity {
     Button searchBtn;
     private ProgressBar loadingIndicator;
     String searchKeyword;
+    int selectedRadioButtonID;
+    int radioButtonIndex;
+
+    private static final String ONSAVEINSTANCESTATE_SEARCHKEYWORD = "search_keyword";
+    private static final String ONSAVEINSTANCESTATE_SEARCHBY = "search_by";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(ONSAVEINSTANCESTATE_SEARCHKEYWORD,searchKeyword);
+        outState.putInt(ONSAVEINSTANCESTATE_SEARCHBY,radioButtonIndex);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +53,23 @@ public class MainActivity extends AppCompatActivity {
         searchBtn = findViewById(R.id.btn_search);
         loadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ONSAVEINSTANCESTATE_SEARCHKEYWORD)) {
+                searchKeyword = savedInstanceState
+                        .getString(ONSAVEINSTANCESTATE_SEARCHKEYWORD);
+                radioButtonIndex = savedInstanceState
+                        .getInt(ONSAVEINSTANCESTATE_SEARCHBY);
+
+                searchView.setQuery(searchKeyword,false);
+                ((RadioButton)searchByRadioGroup.getChildAt(radioButtonIndex)).setChecked(true);
+            }
+        }
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int selectedRadioButtonID = searchByRadioGroup.getCheckedRadioButtonId();
+                selectedRadioButtonID = searchByRadioGroup.getCheckedRadioButtonId();
                 String searchKeyword = searchView.getQuery().toString();
 
                 if (searchKeyword.isEmpty()) {
@@ -53,10 +77,11 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 if (selectedRadioButtonID != -1) {
 
                     RadioButton selectedRadioButton = findViewById(selectedRadioButtonID);
+                    radioButtonIndex = searchByRadioGroup.indexOfChild(selectedRadioButton);
+
                     String selectedRadioButtonText = selectedRadioButton.getText().toString();
 
                     new FetchBookTask().execute(searchKeyword, selectedRadioButtonText);
@@ -125,18 +150,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(SearchResult);
                 }
             }
-
-
-            //========================================================
-
-
-            //            if (bookData != null) {
-//                showBooksDataView();
-//                ONSAVEINSTANCESTATE_MOVIES = bookData;
-//                bookAdapter.setBookData(bookData);
-//            } else {
-//                showErrorMessage();
-//            }
         }
     }
 
