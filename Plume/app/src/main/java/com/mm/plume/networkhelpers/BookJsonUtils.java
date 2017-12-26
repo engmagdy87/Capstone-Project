@@ -102,23 +102,4 @@ public class BookJsonUtils {
         }
         return booksInfo;
     }
-//    public static ArrayList<MovieTrailers> getMovieTrailersStringsFromJson(MovieDetail context, String bookJsonStr)
-//            throws JSONException {
-//
-//        ArrayList<MovieTrailers> booksInfo = new ArrayList<MovieTrailers>();
-//
-//        JSONObject bookJson = new JSONObject(bookJsonStr);
-//
-//        JSONArray bookArray = bookJson.getJSONArray("results");
-//        Log.v("tag","Length " + bookArray.length());
-//        for (int i = 0; i < bookArray.length(); i++) {
-//            String key = bookArray.getJSONObject(i).getString("key");
-//            String name = bookArray.getJSONObject(i).getString("name");
-//            Log.v("tag","MY Trailers " + key + " " + name);
-//            booksInfo.add(new MovieTrailers(key, name));
-//        }
-//
-//        return booksInfo;
-//    }
-
 }
