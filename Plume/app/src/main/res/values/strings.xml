@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Plume</string>
+    <!--Login Activity-->
+    <string name="username_placeholder">Username</string>
+    <string name="password_placeholder">Password</string>
+    <string name="login_btn">Login</string>
+
+    <!--Search Activity-->
+    <string name="search_placeholder">Search Plume By</string>
+    <string name="title_radio">Title</string>
+    <string name="author_radio">Author</string>
+    <string name="subject_radio">Subject</string>
+    <string name="search_btn">Search</string>
+
+    <!--Drawer Navigator-->
+    <string name="fav_list">Favorite List</string>
+    <string name="logout">Logout</string>
+
+    <!--Widget-->
+    <string name="fav_books">Favorite Books</string>
+
+</resources>
