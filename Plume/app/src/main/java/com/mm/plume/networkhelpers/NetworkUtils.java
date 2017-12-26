@@ -3,6 +3,8 @@ package com.mm.plume.networkhelpers;
 import android.net.Uri;
 import android.util.Log;
 
+import com.mm.plume.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -41,7 +43,7 @@ public class NetworkUtils {
                 .appendQueryParameter(query, keyword)
                 .fragment(SEARCH_BY)
                 .build();
-        String stringUrl = builtUri.toString()+"&key=AIzaSyCXO-W1yBgGnbPP8DpaF3DW4wwFGLUpJlo";
+        String stringUrl = builtUri.toString()+"&key="+ BuildConfig.GOOGLE_API_KEY;
         String plusReplaced = stringUrl.replace("#%2B", "+");
         String finalUrl = plusReplaced.replace("%3A", ":");
 
