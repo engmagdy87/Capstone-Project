@@ -54,7 +54,12 @@ public class BookJsonUtils {
                         if (volumeInfoArray.isNull("industryIdentifiers")) {
                             bookInfo.setIsbn("N/A");
                         } else {
-                            bookInfo.setIsbn(volumeInfoArray.getJSONArray("industryIdentifiers").getJSONObject(1).getString("identifier"));
+                            if (volumeInfoArray.getJSONArray("industryIdentifiers").getJSONObject(0).getString("type").equals("ISBN_13")) {
+                                bookInfo.setIsbn(volumeInfoArray.getJSONArray("industryIdentifiers").getJSONObject(0).getString("identifier"));
+                            } else {
+                                bookInfo.setIsbn(volumeInfoArray.getJSONArray("industryIdentifiers").getJSONObject(1).getString("identifier"));
+                            }
+
                         }
                         if (volumeInfoArray.isNull("publisher"))
                             bookInfo.setPublisher("N/A");
