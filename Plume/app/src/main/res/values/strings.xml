@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Plume</string>
     <!--Login Activity-->
-    <string name="username_placeholder">Username</string>
+    <string name="email_placeholder">E-mail</string>
     <string name="password_placeholder">Password</string>
     <string name="login_btn">Login</string>
 
