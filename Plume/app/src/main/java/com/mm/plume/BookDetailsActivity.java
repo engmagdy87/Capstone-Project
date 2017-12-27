@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mm.plume.javaclasses.BookInfo;
@@ -68,10 +69,10 @@ public class BookDetailsActivity extends AppCompatActivity {
                         .getString(ONSAVEINSTANCESTATE_ADDFAV);
                 if (addFavTag.equals("star_off")) {
                     addFavBtn.setTag("star_off");
-                    addFavBtn.setImageResource(R.drawable.star_off);
+                    addFavBtn.setImageResource(R.drawable.ic_unfavorite);
                 } else {
                     addFavBtn.setTag("star_on");
-                    addFavBtn.setImageResource(R.drawable.star_on);
+                    addFavBtn.setImageResource(R.drawable.ic_favorite);
                 }
             }
         } else {
@@ -138,11 +139,13 @@ public class BookDetailsActivity extends AppCompatActivity {
                 if (addFavBtn.getTag().toString().equals("star_off")) {
                     addFavBtn.setTag("star_on");
                     addFavTag = "star_on";
-                    addFavBtn.setImageResource(R.drawable.star_on);
+                    addFavBtn.setImageResource(R.drawable.ic_favorite);
+                    Toast.makeText(getBaseContext(), "Added to favorite list", Toast.LENGTH_SHORT).show();
                 } else {
                     addFavBtn.setTag("star_off");
                     addFavTag = "star_off";
-                    addFavBtn.setImageResource(R.drawable.star_off);
+                    addFavBtn.setImageResource(R.drawable.ic_unfavorite);
+                    Toast.makeText(getBaseContext(), "Removed from favorite list", Toast.LENGTH_SHORT).show();
                 }
             }
         });

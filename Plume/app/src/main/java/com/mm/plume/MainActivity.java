@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
+
+import android.support.v7.app.ActionBarDrawerToggle;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -15,8 +19,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.mindorks.placeholderview.PlaceHolderView;
 import com.mm.plume.javaclasses.BookInfo;
+import com.mm.plume.navigationdrawer.DrawerHeader;
+import com.mm.plume.navigationdrawer.DrawerMenuItem;
 import com.mm.plume.networkhelpers.BookJsonUtils;
 import com.mm.plume.networkhelpers.NetworkUtils;
 
@@ -32,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     String searchKeyword;
     int selectedRadioButtonID;
     int radioButtonIndex;
+
+    private PlaceHolderView mDrawerView;
+    private DrawerLayout mDrawer;
+    private android.support.v7.widget.Toolbar mToolbar;
+
 
     private static final String ONSAVEINSTANCESTATE_SEARCHKEYWORD = "search_keyword";
     private static final String ONSAVEINSTANCESTATE_SEARCHBY = "search_by";
@@ -92,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        mDrawer = (DrawerLayout)findViewById(R.id.drawerLayout);
+        mDrawerView = (PlaceHolderView)findViewById(R.id.drawerView);
+        mToolbar =  findViewById(R.id.toolbar);
+
+        setupDrawer();
     }
 
     public class FetchBookTask extends AsyncTask<String, Void, ArrayList<BookInfo>> {
@@ -153,4 +172,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setupDrawer(){
+        mDrawerView
+                .addView(new DrawerHeader())
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS));
+
+        ActionBarDrawerToggle  drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar,  R.string.openDrawer, R.string.closeDrawer){
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        mDrawer.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+    }
 }
