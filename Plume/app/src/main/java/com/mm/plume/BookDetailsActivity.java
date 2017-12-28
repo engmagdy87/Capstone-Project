@@ -21,6 +21,7 @@ public class BookDetailsActivity extends AppCompatActivity {
     private TextView bookTitle;
     private TextView bookCompleteTitle;
     private TextView bookAuthors;
+    private TextView bookIsbn;
     private TextView bookPublish;
     private TextView bookCategories;
     private TextView description;
@@ -48,6 +49,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         bookAuthors = findViewById(R.id.book_authors);
         bookPublish = findViewById(R.id.book_publish);
+        bookIsbn = findViewById(R.id.book_isbn);
         bookCategories = findViewById(R.id.book_cat);
         shareBtn = findViewById(R.id.share_fab);
         addFavBtn = findViewById(R.id.add_fav);
@@ -114,6 +116,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         bookAuthors.setText("By " + b.toString());
         bookPublish.setText("Published by " + bookInfo.getPublisher() + " at " + bookInfo.getPublishedDate());
+        bookIsbn.setText("ISBN: " + bookInfo.getIsbn());
 
         b = new StringBuilder();
         String[] categories = bookInfo.getCategories();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,40 +9,16 @@
 <ImageView
     android:layout_marginTop="20dp"
     android:layout_gravity="center"
-    android:layout_width="100dp"
-    android:layout_height="150dp"
+    android:layout_width="150dp"
+    android:layout_height="200dp"
     android:src="@drawable/logo"/>
 
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:hint="@string/email_placeholder"/>
-    <EditText
-        android:id="@+id/ed_password"
-        android:inputType="textPassword"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:hint="@string/password_placeholder"/>
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_marginTop="25dp"
-        android:layout_gravity="center"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_btn" />
+        android:layout_marginTop="70dp"
+        android:layout_gravity="center"/>
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"

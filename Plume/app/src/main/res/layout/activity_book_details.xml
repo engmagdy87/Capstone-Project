@@ -120,6 +120,17 @@
                 android:textSize="@dimen/detail_by_line_text_size"
                 />
             <TextView
+                android:id="@+id/book_isbn"
+                style="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/by_line_margin"
+                android:paddingBottom="@dimen/by_line_margin"
+                android:paddingLeft="@dimen/by_line_margin"
+                android:paddingRight="@dimen/by_line_margin"
+                android:textSize="@dimen/detail_by_line_text_size"
+                />
+            <TextView
                 android:id="@+id/book_cat"
                 style="?android:attr/textAppearanceMedium"
                 android:layout_width="match_parent"

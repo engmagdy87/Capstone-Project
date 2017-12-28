@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "156860029640",
+    "firebase_url": "https://plume-189713.firebaseio.com",
+    "project_id": "plume-189713",
+    "storage_bucket": "plume-189713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156860029640:android:4b305bb3a1b692aa",
+        "android_client_info": {
+          "package_name": "com.mm.plume"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156860029640-20pmpph6l7o8h3qdli44imnikj6k6ana.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mm.plume",
+            "certificate_hash": "71eff0acee8b20f2e9d67d7de7e3d356a263217c"
+          }
+        },
+        {
+          "client_id": "156860029640-na1tukq0avuuqbvkn84isi4rmca026ae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6PcTmQVZzLbzEYiEHMk20EhhFqwA_vDg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156860029640-na1tukq0avuuqbvkn84isi4rmca026ae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

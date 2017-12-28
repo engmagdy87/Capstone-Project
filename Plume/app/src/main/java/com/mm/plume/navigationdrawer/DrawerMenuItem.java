@@ -1,15 +1,20 @@
 package com.mm.plume.navigationdrawer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
+import com.mm.plume.LoginActivity;
 import com.mm.plume.R;
+import com.mm.plume.SearchResultActivity;
 
 /**
  * Created by MM on 12/26/2017.
@@ -38,7 +43,7 @@ public class DrawerMenuItem {
 
     @Resolve
     private void onResolved() {
-        switch (mMenuPosition){
+        switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:
                 itemNameTxt.setText("Favorite list");
                 itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_favorite_nav));
@@ -51,15 +56,21 @@ public class DrawerMenuItem {
     }
 
     @Click(R.id.mainView)
-    private void onMenuItemClick(){
-        switch (mMenuPosition){
+    private void onMenuItemClick() {
+        switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:
                 Toast.makeText(mContext, "Favorite list", Toast.LENGTH_SHORT).show();
-                if(mCallBack != null)mCallBack.onProfileMenuSelected();
+                if (mCallBack != null) mCallBack.onProfileMenuSelected();
                 break;
             case DRAWER_MENU_ITEM_REQUESTS:
-                Toast.makeText(mContext, "Sign out", Toast.LENGTH_SHORT).show();
-                if(mCallBack != null)mCallBack.onRequestMenuSelected();
+                FirebaseAuth.getInstance().signOut();
+
+                Class destinationActivity = LoginActivity.class;
+                Intent HomeActivity = new Intent(mContext, destinationActivity);
+                HomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(HomeActivity);
+
+                if (mCallBack != null) mCallBack.onRequestMenuSelected();
                 break;
         }
     }
@@ -68,8 +79,9 @@ public class DrawerMenuItem {
         mCallBack = callBack;
     }
 
-    public interface DrawerCallBack{
+    public interface DrawerCallBack {
         void onProfileMenuSelected();
+
         void onRequestMenuSelected();
     }
 }

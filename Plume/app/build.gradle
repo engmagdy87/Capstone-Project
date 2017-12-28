@@ -33,4 +33,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     compile "com.android.support:design:27.0.2"
     compile 'com.mindorks:placeholderview:0.7.2'
+    compile 'com.google.firebase:firebase-auth:11.6.2'
+    compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

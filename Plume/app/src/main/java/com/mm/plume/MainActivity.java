@@ -23,6 +23,7 @@ import android.widget.Toolbar;
 
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mm.plume.javaclasses.BookInfo;
+import com.mm.plume.javaclasses.CurrentUser;
 import com.mm.plume.navigationdrawer.DrawerHeader;
 import com.mm.plume.navigationdrawer.DrawerMenuItem;
 import com.mm.plume.networkhelpers.BookJsonUtils;
@@ -41,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
     int selectedRadioButtonID;
     int radioButtonIndex;
 
+    CurrentUser currentUser;
+
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
     private android.support.v7.widget.Toolbar mToolbar;
-
 
     private static final String ONSAVEINSTANCESTATE_SEARCHKEYWORD = "search_keyword";
     private static final String ONSAVEINSTANCESTATE_SEARCHBY = "search_by";
@@ -77,7 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 ((RadioButton)searchByRadioGroup.getChildAt(radioButtonIndex)).setChecked(true);
             }
         }
+        Intent myIntent = getIntent();
+        Bundle extras = myIntent.getExtras();
+        if (extras != null) {
+            if (extras.containsKey("currentUser")) {
+                currentUser = myIntent.getParcelableExtra("currentUser");
 
+            }
+        }
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,11 +183,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawer(){
         mDrawerView
-                .addView(new DrawerHeader())
+                .addView(new DrawerHeader(getBaseContext(),currentUser.getDisplayNAME(),currentUser.getEmail(),currentUser.getProfileImage()))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS));
 
-        ActionBarDrawerToggle  drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar,  R.string.openDrawer, R.string.closeDrawer){
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar,  R.string.openDrawer, R.string.closeDrawer){
 
             @Override
             public void onDrawerOpened(View drawerView) {
