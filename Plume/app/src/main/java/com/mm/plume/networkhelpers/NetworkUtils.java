@@ -33,7 +33,8 @@ public class NetworkUtils {
         if(searchBy.equals("Author")){
             SEARCH_BY = "+inauthor:keys";
         }else if(searchBy.equals("Title")){
-            SEARCH_BY = "+intitle:keys";
+            SEARCH_BY = "";
+            //"+intitle:keys" doesn't get proper results
         } else if(searchBy.equals("Subject")){
             SEARCH_BY = "+insubject:keys";
         }

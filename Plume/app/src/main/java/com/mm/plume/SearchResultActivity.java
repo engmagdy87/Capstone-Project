@@ -22,15 +22,18 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
     private BookItemAdapter bookAdapter = new BookItemAdapter(this, this);
     private ArrayList<BookInfo> booksData;
     private String activityTitle;
+    private String userId;
     private Toolbar toolbar;
     private static final String ONSAVEINSTANCESTATE_BOOKS = "books";
     private static final String ONSAVEINSTANCESTATE_TITLE = "title";
+    private static final String ONSAVEINSTANCESTATE_USERID = "currentUserId";
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(ONSAVEINSTANCESTATE_BOOKS, booksData);
         outState.putString(ONSAVEINSTANCESTATE_TITLE, activityTitle);
+        outState.putString(ONSAVEINSTANCESTATE_USERID, userId);
     }
 
     @Override
@@ -39,7 +42,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         setContentView(R.layout.activity_search_result);
 
         recyclerView = findViewById(R.id.recyclerview_book);
-        toolbar= findViewById(R.id.app_bar);
+        toolbar = findViewById(R.id.app_bar);
         StaggeredGridLayoutManager stagGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         recyclerView.setLayoutManager(stagGridLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -55,6 +58,8 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                         .getParcelableArrayList(ONSAVEINSTANCESTATE_BOOKS);
                 activityTitle = savedInstanceState
                         .getString(ONSAVEINSTANCESTATE_TITLE);
+                userId = savedInstanceState
+                        .getString(ONSAVEINSTANCESTATE_USERID);
 
                 bookAdapter.setBookData(booksData);
                 getSupportActionBar().setTitle(activityTitle);
@@ -71,6 +76,9 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                     activityTitle = myIntent.getStringExtra("searchKeyword");
                     getSupportActionBar().setTitle(activityTitle);
                 }
+                if (extras.containsKey("currentUserId")) {
+                    userId = myIntent.getStringExtra("currentUserId");
+                }
             }
         }
     }
@@ -82,6 +90,9 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         Intent bookDetails = new Intent(context, destinationActivity);
         Bundle extras = new Bundle();
         extras.putParcelable("book", book);
+        extras.putString("userId", userId);
+        if (activityTitle.equals("Favorite List"))
+            extras.putString("fav", "fav");
         bookDetails.putExtras(extras);
         startActivity(bookDetails);
     }

@@ -2,19 +2,35 @@ package com.mm.plume.navigationdrawer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mm.plume.LoginActivity;
+import com.mm.plume.MainActivity;
 import com.mm.plume.R;
 import com.mm.plume.SearchResultActivity;
+import com.mm.plume.javaclasses.BookInfo;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.zip.Inflater;
 
 /**
  * Created by MM on 12/26/2017.
@@ -25,10 +41,15 @@ public class DrawerMenuItem {
 
     public static final int DRAWER_MENU_ITEM_PROFILE = 1;
     public static final int DRAWER_MENU_ITEM_REQUESTS = 2;
-
+    Class destinationActivity;
+    ArrayList<BookInfo> bookInfos;
+    BookInfo bookInfo;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     private int mMenuPosition;
     private Context mContext;
     private DrawerCallBack mCallBack;
+    String userId;
 
     @View(R.id.itemNameTxt)
     private TextView itemNameTxt;
@@ -36,9 +57,10 @@ public class DrawerMenuItem {
     @View(R.id.itemIcon)
     private ImageView itemIcon;
 
-    public DrawerMenuItem(Context context, int menuPosition) {
+    public DrawerMenuItem(Context context, int menuPosition, String userId) {
         mContext = context;
         mMenuPosition = menuPosition;
+        this.userId = userId;
     }
 
     @Resolve
@@ -59,13 +81,72 @@ public class DrawerMenuItem {
     private void onMenuItemClick() {
         switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:
-                Toast.makeText(mContext, "Favorite list", Toast.LENGTH_SHORT).show();
+
+                database = FirebaseDatabase.getInstance();
+                myRef = database.getReference("users");
+                myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> itr = dataSnapshot.getChildren().iterator();
+                        bookInfos = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
+
+
+             String id,title,publisher,publishedDate,description,isbn,thumbnail,shareLink;
+             String [] authors = new String[1],categories = new String[1];
+
+                        for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+                            if (itr.hasNext()) {
+                                bookInfo = new BookInfo();
+                                DataSnapshot dIter = itr.next();
+
+                                id= dIter.child("id").getValue().toString();
+                                isbn = dIter.child("isbn").getValue().toString();
+                                title = dIter.child("title").getValue().toString();
+                                authors[0] = dIter.child("authors").getValue().toString();
+                                publisher = dIter.child("publisher").getValue().toString();
+                                publishedDate = dIter.child("publishedDate").getValue().toString();
+                                description = dIter.child("description").getValue().toString();
+                                categories[0] = dIter.child("categories").getValue().toString();
+                                shareLink = dIter.child("shareLink").getValue().toString();
+                                thumbnail = decodeString(dIter.child("thumbnail").getValue().toString());
+
+                                bookInfo.setIsbn(isbn);
+                                bookInfo.setThumbnail(thumbnail);
+                                bookInfo.setId(id);
+                                bookInfo.setTitle(title);
+                                bookInfo.setAuthors(authors);
+                                bookInfo.setCategories(categories);
+                                bookInfo.setPublisher(publisher);
+                                bookInfo.setPublishedDate(publishedDate);
+                                bookInfo.setDescription(description);
+                                bookInfo.setShareLink(shareLink);
+
+                                bookInfos.add(bookInfo);
+                            }
+                        }
+                        destinationActivity = SearchResultActivity.class;
+                        Intent SearchResult = new Intent(mContext, destinationActivity);
+                        SearchResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Bundle extras = new Bundle();
+                        extras.putParcelableArrayList("booksData",bookInfos);
+                        extras.putString("searchKeyword","Favorite List");
+                        extras.putString("currentUserId",userId);
+                        SearchResult.putExtras(extras);
+                        mContext.startActivity(SearchResult);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 if (mCallBack != null) mCallBack.onProfileMenuSelected();
                 break;
             case DRAWER_MENU_ITEM_REQUESTS:
                 FirebaseAuth.getInstance().signOut();
 
-                Class destinationActivity = LoginActivity.class;
+                destinationActivity = LoginActivity.class;
                 Intent HomeActivity = new Intent(mContext, destinationActivity);
                 HomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(HomeActivity);
@@ -83,5 +164,9 @@ public class DrawerMenuItem {
         void onProfileMenuSelected();
 
         void onRequestMenuSelected();
+    }
+
+    public static String decodeString(String string) {
+        return string.replace(",", ".");
     }
 }

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     RadioGroup searchByRadioGroup;
     Button searchBtn;
-    private ProgressBar loadingIndicator;
+    ProgressBar loadingIndicator;
     String searchKeyword;
     int selectedRadioButtonID;
     int radioButtonIndex;
@@ -50,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ONSAVEINSTANCESTATE_SEARCHKEYWORD = "search_keyword";
     private static final String ONSAVEINSTANCESTATE_SEARCHBY = "search_by";
+    private static final String ONSAVEINSTANCESTATE_USERINFO = "currentUser";
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(ONSAVEINSTANCESTATE_SEARCHKEYWORD,searchKeyword);
         outState.putInt(ONSAVEINSTANCESTATE_SEARCHBY,radioButtonIndex);
+        outState.putParcelable(ONSAVEINSTANCESTATE_USERINFO,currentUser);
     }
 
     @Override
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         .getString(ONSAVEINSTANCESTATE_SEARCHKEYWORD);
                 radioButtonIndex = savedInstanceState
                         .getInt(ONSAVEINSTANCESTATE_SEARCHBY);
+                currentUser = savedInstanceState
+                        .getParcelable(ONSAVEINSTANCESTATE_USERINFO);
 
                 searchView.setQuery(searchKeyword,false);
                 ((RadioButton)searchByRadioGroup.getChildAt(radioButtonIndex)).setChecked(true);
@@ -84,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         if (extras != null) {
             if (extras.containsKey("currentUser")) {
                 currentUser = myIntent.getParcelableExtra("currentUser");
-
             }
         }
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     Bundle extras = new Bundle();
                     extras.putString("searchKeyword",searchKeyword);
                     extras.putParcelableArrayList("booksData",booksData);
+                    extras.putString("currentUserId",currentUser.getUid());
                     SearchResult.putExtras(extras);
                     startActivity(SearchResult);
                 }
@@ -184,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawer(){
         mDrawerView
                 .addView(new DrawerHeader(getBaseContext(),currentUser.getDisplayNAME(),currentUser.getEmail(),currentUser.getProfileImage()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS));
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE,currentUser.getUid()))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS,null));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar,  R.string.openDrawer, R.string.closeDrawer){
 
