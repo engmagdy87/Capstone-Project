@@ -264,4 +264,13 @@ public class BookDetailsActivity extends AppCompatActivity {
     public static String encodeString(String string) {
         return string.replace(".", ",");
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra("getFav", "GET FAV");
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }

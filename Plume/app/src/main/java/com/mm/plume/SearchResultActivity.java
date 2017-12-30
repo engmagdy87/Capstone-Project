@@ -1,7 +1,9 @@
 package com.mm.plume;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +14,24 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mm.plume.adapters.BookItemAdapter;
 import com.mm.plume.javaclasses.BookInfo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SearchResultActivity extends AppCompatActivity implements BookItemAdapter.BookItemAdapterOnClickHandler {
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
+    BookInfo bookInfo;
+    Class destinationActivity;
     private RecyclerView recyclerView;
     private BookItemAdapter bookAdapter = new BookItemAdapter(this, this);
     private ArrayList<BookInfo> booksData;
@@ -65,21 +79,27 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                 getSupportActionBar().setTitle(activityTitle);
             }
         } else {
+
             Intent myIntent = getIntent();
             Bundle extras = myIntent.getExtras();
             if (extras != null) {
                 if (extras.containsKey("booksData")) {
                     booksData = myIntent.getParcelableArrayListExtra("booksData");
-                    bookAdapter.setBookData(booksData);
+
                 }
                 if (extras.containsKey("searchKeyword")) {
                     activityTitle = myIntent.getStringExtra("searchKeyword");
-                    getSupportActionBar().setTitle(activityTitle);
+
                 }
                 if (extras.containsKey("currentUserId")) {
                     userId = myIntent.getStringExtra("currentUserId");
                 }
+                if (!activityTitle.equals("Favorite List")){
+                    bookAdapter.setBookData(booksData);
+                    getSupportActionBar().setTitle(activityTitle);
+                }
             }
+
         }
     }
 
@@ -91,9 +111,69 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         Bundle extras = new Bundle();
         extras.putParcelable("book", book);
         extras.putString("userId", userId);
-        if (activityTitle.equals("Favorite List"))
-            extras.putString("fav", "fav");
         bookDetails.putExtras(extras);
         startActivity(bookDetails);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (activityTitle.equals("Favorite List"))
+        {
+            database = FirebaseDatabase.getInstance();
+            myRef = database.getReference("users");
+            myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterator<DataSnapshot> itr = dataSnapshot.getChildren().iterator();
+                    booksData = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
+
+
+                    String id,title,publisher,publishedDate,description,isbn,thumbnail,shareLink;
+                    String [] authors = new String[1],categories = new String[1];
+
+                    for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+                        if (itr.hasNext()) {
+                            bookInfo = new BookInfo();
+                            DataSnapshot dIter = itr.next();
+
+                            id= dIter.child("id").getValue().toString();
+                            isbn = dIter.child("isbn").getValue().toString();
+                            title = dIter.child("title").getValue().toString();
+                            authors[0] = dIter.child("authors").getValue().toString();
+                            publisher = dIter.child("publisher").getValue().toString();
+                            publishedDate = dIter.child("publishedDate").getValue().toString();
+                            description = dIter.child("description").getValue().toString();
+                            categories[0] = dIter.child("categories").getValue().toString();
+                            shareLink = dIter.child("shareLink").getValue().toString();
+                            thumbnail = decodeString(dIter.child("thumbnail").getValue().toString());
+
+                            bookInfo.setIsbn(isbn);
+                            bookInfo.setThumbnail(thumbnail);
+                            bookInfo.setId(id);
+                            bookInfo.setTitle(title);
+                            bookInfo.setAuthors(authors);
+                            bookInfo.setCategories(categories);
+                            bookInfo.setPublisher(publisher);
+                            bookInfo.setPublishedDate(publishedDate);
+                            bookInfo.setDescription(description);
+                            bookInfo.setShareLink(shareLink);
+
+                            booksData.add(bookInfo);
+                        }
+                    }
+                    bookAdapter.setBookData(booksData);
+                    getSupportActionBar().setTitle(activityTitle);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+    public static String decodeString(String string) {
+        return string.replace(",", ".");
     }
 }
