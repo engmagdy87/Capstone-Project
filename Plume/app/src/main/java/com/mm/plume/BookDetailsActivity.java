@@ -261,6 +261,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_TEXT, bookInfo.getShareLink());
         startActivity(Intent.createChooser(share, "Share Plume Book"));
     }
+
     public static String encodeString(String string) {
         return string.replace(".", ",");
     }

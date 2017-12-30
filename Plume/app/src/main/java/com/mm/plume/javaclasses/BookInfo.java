@@ -86,6 +86,7 @@ public class BookInfo implements Parcelable {
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
     }
+
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
@@ -126,6 +127,7 @@ public class BookInfo implements Parcelable {
     public String getPublishedDate() {
         return publishedDate;
     }
+
     public String getIsbn() {
         return isbn;
     }

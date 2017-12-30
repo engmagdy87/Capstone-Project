@@ -3,21 +3,23 @@
     android:id="@+id/mainView"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:orientation="horizontal"
     android:gravity="center|left"
+    android:orientation="horizontal"
     android:paddingLeft="15dp">
+
     <ImageView
         android:id="@+id/itemIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_favorite_nav"
-        android:paddingRight="20dp"/>
+        android:paddingRight="20dp"
+        android:src="@drawable/ic_favorite_nav" />
+
     <TextView
         android:id="@+id/itemNameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:text="Menu Item"
         android:layout_marginLeft="10dp"
+        android:text="Menu Item"
+        android:textColor="@color/gray"
         android:textSize="14sp" />
 </LinearLayout>

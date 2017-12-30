@@ -6,24 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.mm.plume.LoginActivity">
-<ImageView
-    android:layout_marginTop="20dp"
-    android:layout_gravity="center"
-    android:layout_width="150dp"
-    android:layout_height="200dp"
-    android:src="@drawable/logo"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp" />
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
-        android:layout_height="42dp"
         android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_gravity="center"
         android:visibility="invisible" />
 </LinearLayout>

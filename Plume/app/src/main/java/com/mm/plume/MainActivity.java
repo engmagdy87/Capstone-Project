@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(ONSAVEINSTANCESTATE_SEARCHKEYWORD,searchKeyword);
-        outState.putInt(ONSAVEINSTANCESTATE_SEARCHBY,radioButtonIndex);
-        outState.putParcelable(ONSAVEINSTANCESTATE_USERINFO,currentUser);
+        outState.putString(ONSAVEINSTANCESTATE_SEARCHKEYWORD, searchKeyword);
+        outState.putInt(ONSAVEINSTANCESTATE_SEARCHBY, radioButtonIndex);
+        outState.putParcelable(ONSAVEINSTANCESTATE_USERINFO, currentUser);
     }
 
     @Override
@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 currentUser = savedInstanceState
                         .getParcelable(ONSAVEINSTANCESTATE_USERINFO);
 
-                searchView.setQuery(searchKeyword,false);
-                ((RadioButton)searchByRadioGroup.getChildAt(radioButtonIndex)).setChecked(true);
+                searchView.setQuery(searchKeyword, false);
+                ((RadioButton) searchByRadioGroup.getChildAt(radioButtonIndex)).setChecked(true);
             }
         }
         Intent myIntent = getIntent();
@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mDrawer = (DrawerLayout)findViewById(R.id.drawerLayout);
-        mDrawerView = (PlaceHolderView)findViewById(R.id.drawerView);
-        mToolbar =  findViewById(R.id.toolbar);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerView = (PlaceHolderView) findViewById(R.id.drawerView);
+        mToolbar = findViewById(R.id.toolbar);
 
         setupDrawer();
     }
@@ -175,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
                     Class destinationActivity = SearchResultActivity.class;
                     Intent SearchResult = new Intent(getBaseContext(), destinationActivity);
                     Bundle extras = new Bundle();
-                    extras.putString("searchKeyword",searchKeyword);
-                    extras.putParcelableArrayList("booksData",booksData);
-                    extras.putString("currentUserId",currentUser.getUid());
+                    extras.putString("searchKeyword", searchKeyword);
+                    extras.putParcelableArrayList("booksData", booksData);
+                    extras.putString("currentUserId", currentUser.getUid());
                     SearchResult.putExtras(extras);
                     startActivity(SearchResult);
                 }
@@ -185,18 +185,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerView
-                .addView(new DrawerHeader(getBaseContext(),currentUser.getDisplayNAME(),currentUser.getEmail(),currentUser.getProfileImage()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE,currentUser.getUid()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS,null));
+                .addView(new DrawerHeader(getBaseContext(), currentUser.getDisplayNAME(), currentUser.getEmail(), currentUser.getProfileImage()))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE, currentUser.getUid()))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS, null));
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar,  R.string.openDrawer, R.string.closeDrawer){
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);

@@ -94,7 +94,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                 if (extras.containsKey("currentUserId")) {
                     userId = myIntent.getStringExtra("currentUserId");
                 }
-                if (!activityTitle.equals("Favorite List")){
+                if (!activityTitle.equals("Favorite List")) {
                     bookAdapter.setBookData(booksData);
                     getSupportActionBar().setTitle(activityTitle);
                 }
@@ -118,8 +118,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (activityTitle.equals("Favorite List"))
-        {
+        if (activityTitle.equals("Favorite List")) {
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("users");
             myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -129,15 +128,15 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                     booksData = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
 
 
-                    String id,title,publisher,publishedDate,description,isbn,thumbnail,shareLink;
-                    String [] authors = new String[1],categories = new String[1];
+                    String id, title, publisher, publishedDate, description, isbn, thumbnail, shareLink;
+                    String[] authors = new String[1], categories = new String[1];
 
                     for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
                         if (itr.hasNext()) {
                             bookInfo = new BookInfo();
                             DataSnapshot dIter = itr.next();
 
-                            id= dIter.child("id").getValue().toString();
+                            id = dIter.child("id").getValue().toString();
                             isbn = dIter.child("isbn").getValue().toString();
                             title = dIter.child("title").getValue().toString();
                             authors[0] = dIter.child("authors").getValue().toString();
@@ -173,6 +172,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
             });
         }
     }
+
     public static String decodeString(String string) {
         return string.replace(",", ".");
     }

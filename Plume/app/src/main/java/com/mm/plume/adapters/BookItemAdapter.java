@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by MM on 12/25/2017.
  */
 
-public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookItemAdapterViewHolder>{
+public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookItemAdapterViewHolder> {
     private ArrayList<BookInfo> booksData;
     private Context context;
 
@@ -28,7 +28,7 @@ public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookIt
         void onClick(BookInfo book);
     }
 
-    public BookItemAdapter(Context context,BookItemAdapterOnClickHandler mClickHandler){
+    public BookItemAdapter(Context context, BookItemAdapterOnClickHandler mClickHandler) {
         this.context = context;
         clickHandler = mClickHandler;
     }
@@ -36,7 +36,7 @@ public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookIt
     public class BookItemAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView bookPoster;
 
-        public BookItemAdapterViewHolder(View view){
+        public BookItemAdapterViewHolder(View view) {
             super(view);
             bookPoster = (ImageView) view.findViewById(R.id.book_image);
             view.setOnClickListener(this);
@@ -55,7 +55,7 @@ public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookIt
         Context context = viewGroup.getContext();
         int LayoutIdForBookInList = R.layout.book_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(LayoutIdForBookInList, viewGroup,false);
+        View view = inflater.inflate(LayoutIdForBookInList, viewGroup, false);
         return new BookItemAdapterViewHolder(view);
     }
 
@@ -71,9 +71,10 @@ public class BookItemAdapter extends RecyclerView.Adapter<BookItemAdapter.BookIt
 
     @Override
     public int getItemCount() {
-        if(booksData == null) return 0;
+        if (booksData == null) return 0;
         return booksData.size();
     }
+
     public void setBookData(ArrayList<BookInfo> bookData) {
         booksData = bookData;
         notifyDataSetChanged();

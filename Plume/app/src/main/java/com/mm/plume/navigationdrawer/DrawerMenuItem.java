@@ -1,5 +1,6 @@
 package com.mm.plume.navigationdrawer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -91,15 +92,15 @@ public class DrawerMenuItem {
                         bookInfos = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
 
 
-             String id,title,publisher,publishedDate,description,isbn,thumbnail,shareLink;
-             String [] authors = new String[1],categories = new String[1];
+                        String id, title, publisher, publishedDate, description, isbn, thumbnail, shareLink;
+                        String[] authors = new String[1], categories = new String[1];
 
                         for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
                             if (itr.hasNext()) {
                                 bookInfo = new BookInfo();
                                 DataSnapshot dIter = itr.next();
 
-                                id= dIter.child("id").getValue().toString();
+                                id = dIter.child("id").getValue().toString();
                                 isbn = dIter.child("isbn").getValue().toString();
                                 title = dIter.child("title").getValue().toString();
                                 authors[0] = dIter.child("authors").getValue().toString();
@@ -124,13 +125,14 @@ public class DrawerMenuItem {
                                 bookInfos.add(bookInfo);
                             }
                         }
+
                         destinationActivity = SearchResultActivity.class;
                         Intent SearchResult = new Intent(mContext, destinationActivity);
                         SearchResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Bundle extras = new Bundle();
-                        extras.putParcelableArrayList("booksData",bookInfos);
-                        extras.putString("searchKeyword","Favorite List");
-                        extras.putString("currentUserId",userId);
+                        extras.putParcelableArrayList("booksData", bookInfos);
+                        extras.putString("searchKeyword", "Favorite List");
+                        extras.putString("currentUserId", userId);
                         SearchResult.putExtras(extras);
                         mContext.startActivity(SearchResult);
                     }

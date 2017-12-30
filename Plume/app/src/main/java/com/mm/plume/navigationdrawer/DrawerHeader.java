@@ -25,7 +25,7 @@ public class DrawerHeader {
     private String profileImage;
     private Context context;
 
-    public DrawerHeader(Context context,String username, String email, String profileImage) {
+    public DrawerHeader(Context context, String username, String email, String profileImage) {
         this.username = username;
         this.email = email;
         this.profileImage = profileImage;
