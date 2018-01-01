@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mm.plume.javaclasses.BookInfo;
+import com.mm.plume.widget.PlumeWidgetService;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,7 @@ public class BookDetailsActivity extends AppCompatActivity {
     String addFavTag;
     String userId;
     String fav;
+    int booksInFavList;
     BookInfo bookInfo;
 
     private static final String ONSAVEINSTANCESTATE_BOOK = "book";
@@ -107,6 +109,9 @@ public class BookDetailsActivity extends AppCompatActivity {
                 }
                 if (extras.containsKey("userId")) {
                     userId = myIntent.getStringExtra("userId");
+                }
+                if (extras.containsKey("booksInFavList")) {
+                    booksInFavList = myIntent.getIntExtra("booksInFavList",0);
                 }
                 if (extras.containsKey("fav")) {
                     fav = myIntent.getStringExtra("fav");
@@ -224,12 +229,18 @@ public class BookDetailsActivity extends AppCompatActivity {
                         b.append(", ");
                     }
                     myRef.child(userId).child(bookInfo.getId()).child("categories").setValue(b.toString());
+                    booksInFavList = booksInFavList + 1;
+                    Log.i("tagg",booksInFavList+"");
+                    PlumeWidgetService.startFavListService(getBaseContext(),booksInFavList);
                 } else {
                     addFavBtn.setTag("star_off");
                     addFavTag = "star_off";
                     addFavBtn.setImageResource(R.drawable.ic_unfavorite);
 
                     myRef.child(userId).child(bookInfo.getId()).removeValue();
+                    booksInFavList = booksInFavList - 1;
+                    Log.i("tagg",booksInFavList+"");
+                    PlumeWidgetService.startFavListService(getBaseContext(),booksInFavList);
                 }
                 myRef.child(userId).child(bookInfo.getId()).child("isbn").addValueEventListener(new ValueEventListener() {
                     @Override

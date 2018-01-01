@@ -17,12 +17,13 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".SearchResultActivity"
             android:launchMode="singleTop"
@@ -31,6 +32,18 @@
             android:name=".BookDetailsActivity"
             android:parentActivityName=".SearchResultActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <receiver android:name=".widget.PlumeWidgetProvider" android:icon="@drawable/ic_launcher">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE_FAVLIST" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/plume_widget_provider_info" />
+        </receiver>
+        <service android:name=".widget.PlumeWidgetService" />
 
     </application>
 

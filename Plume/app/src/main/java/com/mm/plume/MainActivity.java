@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,6 +22,11 @@ import android.widget.SearchView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mm.plume.javaclasses.BookInfo;
 import com.mm.plume.javaclasses.CurrentUser;
@@ -28,20 +34,26 @@ import com.mm.plume.navigationdrawer.DrawerHeader;
 import com.mm.plume.navigationdrawer.DrawerMenuItem;
 import com.mm.plume.networkhelpers.BookJsonUtils;
 import com.mm.plume.networkhelpers.NetworkUtils;
+import com.mm.plume.widget.PlumeWidgetService;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
-
+    Context context;
     SearchView searchView;
     RadioGroup searchByRadioGroup;
     Button searchBtn;
-    ProgressBar loadingIndicator;
+    static int favBookListCount;
+    static FirebaseDatabase database;
+    static DatabaseReference myRef;
+    public static ArrayList<BookInfo> booksData;
+    static BookInfo bookInfo;
+    static ProgressBar loadingIndicator;
     String searchKeyword;
     int selectedRadioButtonID;
     int radioButtonIndex;
-
     CurrentUser currentUser;
 
     private PlaceHolderView mDrawerView;
@@ -123,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
 
         setupDrawer();
+        getFavoriteList(currentUser.getUid(),this);
     }
 
     public class FetchBookTask extends AsyncTask<String, Void, ArrayList<BookInfo>> {
@@ -178,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
                     extras.putString("searchKeyword", searchKeyword);
                     extras.putParcelableArrayList("booksData", booksData);
                     extras.putString("currentUserId", currentUser.getUid());
+
+                    extras.putInt("favListSize", favBookListCount);
                     SearchResult.putExtras(extras);
                     startActivity(SearchResult);
                 }
@@ -211,5 +226,62 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    public static void getFavoriteList(String currentUserId, final Context context){
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+        myRef.child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> itr = dataSnapshot.getChildren().iterator();
+                booksData = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
+
+                String id, title, publisher, publishedDate, description, isbn, thumbnail, shareLink;
+                String[] authors = new String[1], categories = new String[1];
+
+                for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+                    if (itr.hasNext()) {
+                        bookInfo = new BookInfo();
+                        DataSnapshot dIter = itr.next();
+
+                        id = dIter.child("id").getValue().toString();
+                        isbn = dIter.child("isbn").getValue().toString();
+                        title = dIter.child("title").getValue().toString();
+                        authors[0] = dIter.child("authors").getValue().toString();
+                        publisher = dIter.child("publisher").getValue().toString();
+                        publishedDate = dIter.child("publishedDate").getValue().toString();
+                        description = dIter.child("description").getValue().toString();
+                        categories[0] = dIter.child("categories").getValue().toString();
+                        shareLink = dIter.child("shareLink").getValue().toString();
+                        thumbnail = decodeString(dIter.child("thumbnail").getValue().toString());
+
+                        bookInfo.setIsbn(isbn);
+                        bookInfo.setThumbnail(thumbnail);
+                        bookInfo.setId(id);
+                        bookInfo.setTitle(title);
+                        bookInfo.setAuthors(authors);
+                        bookInfo.setCategories(categories);
+                        bookInfo.setPublisher(publisher);
+                        bookInfo.setPublishedDate(publishedDate);
+                        bookInfo.setDescription(description);
+                        bookInfo.setShareLink(shareLink);
+                        booksData.add(bookInfo);
+                    }
+                }
+                favBookListCount = booksData.size();
+                PlumeWidgetService.startFavListService(context,favBookListCount);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+    public static String decodeString(String string) {
+        return string.replace(",", ".");
     }
 }

@@ -28,6 +28,7 @@ import com.mm.plume.MainActivity;
 import com.mm.plume.R;
 import com.mm.plume.SearchResultActivity;
 import com.mm.plume.javaclasses.BookInfo;
+import com.mm.plume.widget.PlumeWidgetService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -82,7 +83,6 @@ public class DrawerMenuItem {
     private void onMenuItemClick() {
         switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:
-
                 database = FirebaseDatabase.getInstance();
                 myRef = database.getReference("users");
                 myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,7 +90,6 @@ public class DrawerMenuItem {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Iterator<DataSnapshot> itr = dataSnapshot.getChildren().iterator();
                         bookInfos = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
-
 
                         String id, title, publisher, publishedDate, description, isbn, thumbnail, shareLink;
                         String[] authors = new String[1], categories = new String[1];
@@ -121,20 +120,11 @@ public class DrawerMenuItem {
                                 bookInfo.setPublishedDate(publishedDate);
                                 bookInfo.setDescription(description);
                                 bookInfo.setShareLink(shareLink);
-
                                 bookInfos.add(bookInfo);
                             }
                         }
 
-                        destinationActivity = SearchResultActivity.class;
-                        Intent SearchResult = new Intent(mContext, destinationActivity);
-                        SearchResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Bundle extras = new Bundle();
-                        extras.putParcelableArrayList("booksData", bookInfos);
-                        extras.putString("searchKeyword", "Favorite List");
-                        extras.putString("currentUserId", userId);
-                        SearchResult.putExtras(extras);
-                        mContext.startActivity(SearchResult);
+                        PlumeWidgetService.startFavListService(mContext,bookInfos.size());
                     }
 
                     @Override
@@ -143,6 +133,15 @@ public class DrawerMenuItem {
                     }
                 });
 
+                destinationActivity = SearchResultActivity.class;
+                Intent SearchResult = new Intent(mContext, destinationActivity);
+                SearchResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle extras = new Bundle();
+                extras.putParcelableArrayList("booksData", bookInfos);
+                extras.putString("searchKeyword", "Favorite List");
+                extras.putString("currentUserId", userId);
+                SearchResult.putExtras(extras);
+                mContext.startActivity(SearchResult);
                 if (mCallBack != null) mCallBack.onProfileMenuSelected();
                 break;
             case DRAWER_MENU_ITEM_REQUESTS:

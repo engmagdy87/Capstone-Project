@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -21,22 +22,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mm.plume.adapters.BookItemAdapter;
 import com.mm.plume.javaclasses.BookInfo;
+import com.mm.plume.widget.PlumeWidgetService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SearchResultActivity extends AppCompatActivity implements BookItemAdapter.BookItemAdapterOnClickHandler {
 
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+    static FirebaseDatabase database;
+    static DatabaseReference myRef;
 
-    BookInfo bookInfo;
-    Class destinationActivity;
+    static BookInfo bookInfo;
     private RecyclerView recyclerView;
     private BookItemAdapter bookAdapter = new BookItemAdapter(this, this);
-    private ArrayList<BookInfo> booksData;
+    static ArrayList<BookInfo> booksData;
     private String activityTitle;
-    private String userId;
+    static String userId;
+    int favBookListCount;
+    ProgressBar progressBar;
     private Toolbar toolbar;
     private static final String ONSAVEINSTANCESTATE_BOOKS = "books";
     private static final String ONSAVEINSTANCESTATE_TITLE = "title";
@@ -62,6 +65,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(bookAdapter);
         recyclerView.setVisibility(View.VISIBLE);
+        progressBar = findViewById(R.id.pb_loading_indicator);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -94,6 +98,10 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                 if (extras.containsKey("currentUserId")) {
                     userId = myIntent.getStringExtra("currentUserId");
                 }
+                if (extras.containsKey("favListSize")) {
+                    favBookListCount = myIntent.getIntExtra("favListSize",0);
+                    PlumeWidgetService.startFavListService(getBaseContext(),favBookListCount);
+                }
                 if (!activityTitle.equals("Favorite List")) {
                     bookAdapter.setBookData(booksData);
                     getSupportActionBar().setTitle(activityTitle);
@@ -101,6 +109,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
             }
 
         }
+
     }
 
     @Override
@@ -111,6 +120,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         Bundle extras = new Bundle();
         extras.putParcelable("book", book);
         extras.putString("userId", userId);
+        extras.putInt("booksInFavList", favBookListCount);
         bookDetails.putExtras(extras);
         startActivity(bookDetails);
     }
@@ -119,6 +129,8 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
     protected void onPostResume() {
         super.onPostResume();
         if (activityTitle.equals("Favorite List")) {
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("users");
             myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,7 +138,6 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterator<DataSnapshot> itr = dataSnapshot.getChildren().iterator();
                     booksData = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
-
 
                     String id, title, publisher, publishedDate, description, isbn, thumbnail, shareLink;
                     String[] authors = new String[1], categories = new String[1];
@@ -157,12 +168,11 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                             bookInfo.setPublishedDate(publishedDate);
                             bookInfo.setDescription(description);
                             bookInfo.setShareLink(shareLink);
-
                             booksData.add(bookInfo);
                         }
                     }
-                    bookAdapter.setBookData(booksData);
-                    getSupportActionBar().setTitle(activityTitle);
+                    favBookListCount = booksData.size();
+                    PlumeWidgetService.startFavListService(getBaseContext(),favBookListCount);
                 }
 
                 @Override
@@ -170,6 +180,11 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
 
                 }
             });
+            getSupportActionBar().setTitle(activityTitle);
+            progressBar.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            bookAdapter.setBookData(booksData);
+            bookAdapter.notifyDataSetChanged();
         }
     }
 
