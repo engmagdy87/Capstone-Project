@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -125,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getBaseContext(), "Please select search option ", Toast.LENGTH_LONG).show();
                 }
-
-
             }
         });
 
@@ -203,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawer() {
         mDrawerView
                 .addView(new DrawerHeader(getBaseContext(), currentUser.getDisplayNAME(), currentUser.getEmail(), currentUser.getProfileImage()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE, currentUser.getUid()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS, null));
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE, currentUser.getUid(),mDrawer))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS, null,null));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
 

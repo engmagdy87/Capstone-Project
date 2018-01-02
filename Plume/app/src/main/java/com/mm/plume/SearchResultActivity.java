@@ -129,6 +129,8 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
     protected void onPostResume() {
         super.onPostResume();
         if (activityTitle.equals("Favorite List")) {
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("users");
             myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -171,6 +173,8 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                             booksData.add(bookInfo);
                         }
                     }
+                    progressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     bookAdapter.setBookData(booksData);
                     getSupportActionBar().setTitle(activityTitle);
                     favBookListCount = booksData.size();

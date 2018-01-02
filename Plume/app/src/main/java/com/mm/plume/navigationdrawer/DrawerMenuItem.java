@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mindorks.placeholderview.PlaceHolderView;
+import com.mindorks.placeholderview.PlaceHolderViewBuilder;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
@@ -52,6 +57,7 @@ public class DrawerMenuItem {
     private Context mContext;
     private DrawerCallBack mCallBack;
     String userId;
+    DrawerLayout drawerLayout;
 
     @View(R.id.itemNameTxt)
     private TextView itemNameTxt;
@@ -59,10 +65,11 @@ public class DrawerMenuItem {
     @View(R.id.itemIcon)
     private ImageView itemIcon;
 
-    public DrawerMenuItem(Context context, int menuPosition, String userId) {
+    public DrawerMenuItem(Context context, int menuPosition, String userId, DrawerLayout drawerLayout) {
         mContext = context;
         mMenuPosition = menuPosition;
         this.userId = userId;
+        this.drawerLayout = drawerLayout;
     }
 
     @Resolve
@@ -83,6 +90,7 @@ public class DrawerMenuItem {
     private void onMenuItemClick() {
         switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:
+drawerLayout.closeDrawer(Gravity.LEFT);
                 database = FirebaseDatabase.getInstance();
                 myRef = database.getReference("users");
                 myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
