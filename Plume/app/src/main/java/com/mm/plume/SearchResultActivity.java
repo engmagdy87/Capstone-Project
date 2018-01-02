@@ -1,5 +1,6 @@
 package com.mm.plume;
 
+import android.app.ActivityOptions;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -122,7 +123,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         extras.putString("userId", userId);
         extras.putInt("booksInFavList", favBookListCount);
         bookDetails.putExtras(extras);
-        startActivity(bookDetails);
+        startActivity(bookDetails, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
     @Override
     protected void onPostResume() {

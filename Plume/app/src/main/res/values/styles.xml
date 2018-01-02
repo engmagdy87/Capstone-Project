@@ -9,6 +9,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
+        
+        <item name="android:windowEnterTransition">@transition/search</item>
+        <item name="android:windowExitTransition">@transition/search</item>
     </style>
 
     <style name="MyAppStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
