@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/appwidget_text"
-        android:text="0"
+        android:text="@string/fav_books_count"
         android:layout_gravity="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="40sp"
@@ -28,7 +28,7 @@
         android:layout_marginTop="8dp"
         android:layout_gravity="center"
         android:contentDescription="@string/appwidget_text"
-        android:text="Favorite Books"
+        android:text="@string/fav_books"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
