@@ -60,7 +60,7 @@ public class BookDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_details);
-        // Write a message to the database
+
         database = FirebaseDatabase.getInstance();
 
         bookAuthors = findViewById(R.id.book_authors);
@@ -121,7 +121,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             }
             if (!fav.equals("fav")) {
                 myRef = database.getReference("users");
-
+                myRef.keepSynced(true);
                 myRef.child(userId).child(bookInfo.getId()).child("isbn").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -144,6 +144,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                 });
             } else {
                 myRef = database.getReference("users");
+                myRef.keepSynced(true);
                 addFavBtn.setTag("star_on");
                 addFavTag = "star_on";
                 addFavBtn.setImageResource(R.drawable.ic_favorite);

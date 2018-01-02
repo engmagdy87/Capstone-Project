@@ -124,15 +124,16 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
         bookDetails.putExtras(extras);
         startActivity(bookDetails);
     }
-
     @Override
     protected void onPostResume() {
         super.onPostResume();
         if (activityTitle.equals("Favorite List")) {
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
+
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("users");
+            myRef.keepSynced(true);
             myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
