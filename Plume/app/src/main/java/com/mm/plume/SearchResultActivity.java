@@ -99,8 +99,8 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                     userId = myIntent.getStringExtra("currentUserId");
                 }
                 if (extras.containsKey("favListSize")) {
-                    favBookListCount = myIntent.getIntExtra("favListSize",0);
-                    PlumeWidgetService.startFavListService(getBaseContext(),favBookListCount);
+                    favBookListCount = myIntent.getIntExtra("favListSize", 0);
+                    PlumeWidgetService.startFavListService(getBaseContext(), favBookListCount);
                 }
                 if (!activityTitle.equals("Favorite List")) {
                     bookAdapter.setBookData(booksData);
@@ -129,8 +129,6 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
     protected void onPostResume() {
         super.onPostResume();
         if (activityTitle.equals("Favorite List")) {
-            progressBar.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("users");
             myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -138,6 +136,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterator<DataSnapshot> itr = dataSnapshot.getChildren().iterator();
                     booksData = new ArrayList<BookInfo>((int) dataSnapshot.getChildrenCount());
+
 
                     String id, title, publisher, publishedDate, description, isbn, thumbnail, shareLink;
                     String[] authors = new String[1], categories = new String[1];
@@ -168,25 +167,25 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                             bookInfo.setPublishedDate(publishedDate);
                             bookInfo.setDescription(description);
                             bookInfo.setShareLink(shareLink);
+
                             booksData.add(bookInfo);
                         }
                     }
+                    bookAdapter.setBookData(booksData);
+                    getSupportActionBar().setTitle(activityTitle);
                     favBookListCount = booksData.size();
-                    PlumeWidgetService.startFavListService(getBaseContext(),favBookListCount);
+                    PlumeWidgetService.startFavListService(getBaseContext(), favBookListCount);
+
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    Toast.makeText(getBaseContext(), "Internet connection error", Toast.LENGTH_LONG).show();
                 }
             });
-            getSupportActionBar().setTitle(activityTitle);
-            progressBar.setVisibility(View.INVISIBLE);
-            recyclerView.setVisibility(View.VISIBLE);
-            bookAdapter.setBookData(booksData);
-            bookAdapter.notifyDataSetChanged();
         }
     }
+
 
     public static String decodeString(String string) {
         return string.replace(",", ".");
