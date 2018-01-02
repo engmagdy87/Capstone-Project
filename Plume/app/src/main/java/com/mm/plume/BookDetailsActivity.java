@@ -258,7 +258,6 @@ public class BookDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(DatabaseError error) {
                         // Failed to read value
-                        Toast.makeText(getBaseContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (database == null) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
         searchView = findViewById(R.id.sv_search);
         searchByRadioGroup = findViewById(R.id.rg_search);
         searchBtn = findViewById(R.id.btn_search);
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
 
         setupDrawer();
-        getFavoriteList(currentUser.getUid(),this);
+        getFavoriteList(currentUser.getUid(), this);
     }
 
     public class FetchBookTask extends AsyncTask<String, Void, ArrayList<BookInfo>> {
@@ -204,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawer() {
         mDrawerView
                 .addView(new DrawerHeader(getBaseContext(), currentUser.getDisplayNAME(), currentUser.getEmail(), currentUser.getProfileImage()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE, currentUser.getUid(),mDrawer))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS, null,null));
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE, currentUser.getUid(), mDrawer))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS, null, null));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
 
@@ -229,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public static void getFavoriteList(String currentUserId, final Context context){
+    public static void getFavoriteList(String currentUserId, final Context context) {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");
@@ -273,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 favBookListCount = booksData.size();
-                PlumeWidgetService.startFavListService(context,favBookListCount);
+                PlumeWidgetService.startFavListService(context, favBookListCount);
             }
 
             @Override
@@ -283,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     public static String decodeString(String string) {
         return string.replace(",", ".");
     }

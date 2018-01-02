@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         setContentView(R.layout.activity_login);
         signInButton = findViewById(R.id.sign_in_button);
         progressBar = findViewById(R.id.pb_loading_indicator);
