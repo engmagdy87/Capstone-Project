@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     extras.putInt("favListSize", favBookListCount);
                     SearchResult.putExtras(extras);
                     startActivity(SearchResult);
+                    overridePendingTransition( R.transition.slide_in_up, R.transition.slide_out_up );
                 }
             }
         }

@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
             extras.putParcelable("currentUser", userInfo);
             HomeActivity.putExtras(extras);
             startActivity(HomeActivity);
+            overridePendingTransition( R.transition.slide_in_up, R.transition.slide_out_up );
         }
     }
 }
