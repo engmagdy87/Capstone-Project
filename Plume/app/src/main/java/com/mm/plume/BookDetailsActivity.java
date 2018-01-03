@@ -231,7 +231,6 @@ public class BookDetailsActivity extends AppCompatActivity {
                     }
                     myRef.child(userId).child(bookInfo.getId()).child("categories").setValue(b.toString());
                     booksInFavList = booksInFavList + 1;
-                    Log.i("tagg",booksInFavList+"");
                     PlumeWidgetService.startFavListService(getBaseContext(),booksInFavList);
                 } else {
                     addFavBtn.setTag("star_off");
@@ -240,7 +239,6 @@ public class BookDetailsActivity extends AppCompatActivity {
 
                     myRef.child(userId).child(bookInfo.getId()).removeValue();
                     booksInFavList = booksInFavList - 1;
-                    Log.i("tagg",booksInFavList+"");
                     PlumeWidgetService.startFavListService(getBaseContext(),booksInFavList);
                 }
                 myRef.child(userId).child(bookInfo.getId()).child("isbn").addValueEventListener(new ValueEventListener() {
