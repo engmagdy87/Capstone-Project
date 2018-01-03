@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'udacity'
+            keyPassword 'udacity'
+            storeFile file('/keystore.jks')
+            storePassword 'udacity'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.mm.plume"
@@ -14,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     buildTypes.each {
@@ -22,7 +31,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.firebase:firebase-database:11.6.2'
@@ -32,7 +41,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.github.bumptech.glide:glide:4.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
-    compile "com.android.support:design:27.0.2"
+    compile 'com.android.support:design:27.0.2'
     compile 'com.mindorks:placeholderview:0.7.2'
     compile 'com.google.firebase:firebase-auth:11.6.2'
     compile 'com.google.android.gms:play-services-auth:11.6.2'
