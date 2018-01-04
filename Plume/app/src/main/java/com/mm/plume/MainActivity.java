@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 String searchKeyword = searchView.getQuery().toString();
 
                 if (searchKeyword.isEmpty()) {
-                    Toast.makeText(getBaseContext(), "Please insert search keyword ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.search_keyword_missing), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                     new FetchBookTask().execute(searchKeyword, selectedRadioButtonText);
                 } else {
-                    Toast.makeText(getBaseContext(), "Please select search option ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.search_option_missing), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -168,10 +168,8 @@ public class MainActivity extends AppCompatActivity {
                 String jsonBookResponse = NetworkUtils
                         .getResponseFromHttpUrl(searchAPILink);
 
-                ArrayList<BookInfo> simpleJsonBookData = BookJsonUtils
+                return BookJsonUtils
                         .getSimpleBookStringsFromJson(jsonBookResponse);
-
-                return simpleJsonBookData;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -183,10 +181,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<BookInfo> booksData) {
             loadingIndicator.setVisibility(View.INVISIBLE);
             if (booksData == null) {
-                Toast.makeText(getBaseContext(), "Internet connection error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
             } else {
                 if (booksData.isEmpty()) {
-                    Toast.makeText(getBaseContext(), "0 books found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.no_result_found), Toast.LENGTH_LONG).show();
                 } else {
                     Class destinationActivity = SearchResultActivity.class;
                     Intent SearchResult = new Intent(getBaseContext(), destinationActivity);

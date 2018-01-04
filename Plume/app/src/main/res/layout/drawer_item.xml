@@ -12,13 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
-        android:src="@drawable/ic_favorite_nav" />
+        android:src="@drawable/ic_favorite_nav"
+        android:contentDescription="@string/nav_item"/>
 
     <TextView
         android:id="@+id/itemNameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart ="10dp"
         android:textColor="@color/gray"
         android:textSize="14sp" />
 </LinearLayout>

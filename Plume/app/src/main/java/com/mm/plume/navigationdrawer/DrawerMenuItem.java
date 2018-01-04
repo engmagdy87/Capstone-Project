@@ -76,11 +76,13 @@ public class DrawerMenuItem {
     private void onResolved() {
         switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:
-                itemNameTxt.setText("Favorite list");
+                itemNameTxt.setText(R.string.fav_list);
+                itemNameTxt.setContentDescription(mContext.getString(R.string.fav_list));
                 itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_favorite_nav));
                 break;
             case DRAWER_MENU_ITEM_REQUESTS:
-                itemNameTxt.setText("Sign out");
+                itemNameTxt.setText(R.string.sign_out);
+                itemNameTxt.setContentDescription(mContext.getString(R.string.sign_out));
                 itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_sign_out));
                 break;
         }
@@ -146,7 +148,7 @@ drawerLayout.closeDrawer(Gravity.LEFT);
                 SearchResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 Bundle extras = new Bundle();
                 extras.putParcelableArrayList("booksData", bookInfos);
-                extras.putString("searchKeyword", "Favorite List");
+                extras.putString("searchKeyword", mContext.getString(R.string.fav_list));
                 extras.putString("currentUserId", userId);
                 SearchResult.putExtras(extras);
                 mContext.startActivity(SearchResult);

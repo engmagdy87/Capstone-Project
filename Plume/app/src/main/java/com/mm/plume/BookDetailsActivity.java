@@ -175,9 +175,9 @@ public class BookDetailsActivity extends AppCompatActivity {
             b.append(", ");
         }
 
-        bookAuthors.setText("By " + b.toString());
-        bookPublish.setText("Published by " + bookInfo.getPublisher() + " at " + bookInfo.getPublishedDate());
-        bookIsbn.setText("ISBN: " + bookInfo.getIsbn());
+        bookAuthors.setText(getBaseContext().getString(R.string.by_authors) + b.toString());
+        bookPublish.setText(getBaseContext().getString(R.string.pub_by)+ bookInfo.getPublisher() + " at " + bookInfo.getPublishedDate());
+        bookIsbn.setText(getBaseContext().getString(R.string.isbn) + bookInfo.getIsbn());
 
         b = new StringBuilder();
         String[] categories = bookInfo.getCategories();
@@ -187,8 +187,8 @@ public class BookDetailsActivity extends AppCompatActivity {
                 break;
             b.append(", ");
         }
-        bookCategories.setText("Categories: " + b.toString());
-        description.setText("Description:\n" + bookInfo.getDescription());
+        bookCategories.setText(getBaseContext().getString(R.string.categories) + b.toString());
+        description.setText(getBaseContext().getString(R.string.desc)+"\n" + bookInfo.getDescription());
 
         shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,9 +248,9 @@ public class BookDetailsActivity extends AppCompatActivity {
                         // whenever data at this location is updated.
                         String value = dataSnapshot.getValue(String.class);
                         if (value == null)
-                            Toast.makeText(getBaseContext(), "Removed from favorite", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.remove_book_from_fav), Toast.LENGTH_SHORT).show();
                         else
-                            Toast.makeText(getBaseContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.add_book_to_fav), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -268,7 +268,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         share.putExtra(Intent.EXTRA_SUBJECT, bookInfo.getTitle());
         share.putExtra(Intent.EXTRA_TEXT, bookInfo.getShareLink());
-        startActivity(Intent.createChooser(share, "Share Plume Book"));
+        startActivity(Intent.createChooser(share, getBaseContext().getString(R.string.share)));
     }
 
     public static String encodeString(String string) {

@@ -4,6 +4,8 @@
     <string name="email_placeholder">E-mail</string>
     <string name="password_placeholder">Password</string>
     <string name="login_btn">Login</string>
+    <string name="logo">Plume Logo</string>
+    <string name="error_msg">Invalid username or password, Try again</string>
 
     <!--Search Activity-->
     <string name="search_placeholder">Search Plume By</string>
@@ -11,10 +13,30 @@
     <string name="author_radio">Author</string>
     <string name="subject_radio">Subject</string>
     <string name="search_btn">Search</string>
+    <string name="book_cover">Book Cover</string>
+    <string name="search_keyword_missing">Please insert search keyword</string>
+    <string name="search_option_missing">Please select search option</string>
+    <string name="connection_error">Internet connection error</string>
+    <string name="no_result_found">0 books found</string>
+
+    <!--Book Details-->
+    <string name="book_cover_content_desc">Book Description</string>
+    <string name="add_book_to_fav">Added to favorite</string>
+    <string name="remove_book_from_fav">Removed from favorite</string>
+
+    <string name="by_authors">By </string>
+    <string name="pub_by">Published by </string>
+    <string name="pub_date"> at </string>
+    <string name="categories">Categories: </string>
+    <string name="isbn">Isbn: </string>
+    <string name="desc">Description:</string>
+    <string name="share">Share Plume Book:</string>
+    <string name="share_content_desc">Share Book</string>
 
     <!--Drawer Navigator-->
     <string name="fav_list">Favorite List</string>
-    <string name="logout">Logout</string>
+    <string name="sign_out">Sign out</string>
+    <string name="nav_item">Navigation Drawer Item</string>
 
     <!--Widget-->
     <string name="fav_books">Favorite Books</string>

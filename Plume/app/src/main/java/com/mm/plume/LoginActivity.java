@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
                 progressBar.setVisibility(View.INVISIBLE);
                 signInButton.setEnabled(true);
-                Snackbar.make(findViewById(R.id.ll_login), "Invalid username or password, Try again", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.ll_login), getBaseContext().getString(R.string.error_msg), Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             progressBar.setVisibility(View.INVISIBLE);
                             signInButton.setEnabled(true);
-                            Snackbar.make(findViewById(R.id.ll_login), "Invalid username or password, Try again", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.ll_login), getBaseContext().getString(R.string.share), Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });

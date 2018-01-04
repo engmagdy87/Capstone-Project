@@ -103,7 +103,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
                     favBookListCount = myIntent.getIntExtra("favListSize", 0);
                     PlumeWidgetService.startFavListService(getBaseContext(), favBookListCount);
                 }
-                if (!activityTitle.equals("Favorite List")) {
+                if (!activityTitle.equals(getBaseContext().getString(R.string.fav_list))) {
                     bookAdapter.setBookData(booksData);
                     getSupportActionBar().setTitle(activityTitle);
                 }
@@ -128,7 +128,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (activityTitle.equals("Favorite List")) {
+        if (activityTitle.equals(getBaseContext().getString(R.string.fav_list))) {
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
 
@@ -186,7 +186,7 @@ public class SearchResultActivity extends AppCompatActivity implements BookItemA
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(getBaseContext(), "Internet connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), getBaseContext().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                 }
             });
         }
