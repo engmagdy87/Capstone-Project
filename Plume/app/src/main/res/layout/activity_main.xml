@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -94,7 +94,7 @@
     <FrameLayout
         android:layout_width="250dp"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:background="@android:color/white">
 
         <com.mindorks.placeholderview.PlaceHolderView

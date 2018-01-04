@@ -3,15 +3,15 @@
     android:id="@+id/mainView"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:gravity="center|left"
+    android:gravity="center|start"
     android:orientation="horizontal"
-    android:paddingLeft="15dp">
+    android:paddingStart="15dp">
 
     <ImageView
         android:id="@+id/itemIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="20dp"
+        android:paddingEnd="20dp"
         android:src="@drawable/ic_favorite_nav"
         android:contentDescription="@string/nav_item"/>
 

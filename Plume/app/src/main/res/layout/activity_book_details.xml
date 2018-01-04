@@ -50,7 +50,7 @@
                         android:id="@+id/add_fav"
                         android:layout_width="24dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/fab_margin"
                         android:layout_marginTop="15dp"
                         android:elevation="6dp"
@@ -69,8 +69,8 @@
                 android:gravity="bottom|center_horizontal"
                 android:lines="1"
                 android:paddingBottom="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:textColor="@android:color/white"
                 android:textSize="22sp" />
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -94,8 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/by_line_margin"
-                android:paddingLeft="@dimen/by_line_margin"
-                android:paddingRight="@dimen/by_line_margin"
+                android:paddingStart="@dimen/by_line_margin"
+                android:paddingEnd="@dimen/by_line_margin"
                 android:paddingTop="@dimen/by_line_margin"
                 android:textSize="@dimen/detail_by_line_text_size" />
 
@@ -105,8 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/by_line_margin"
-                android:paddingLeft="@dimen/by_line_margin"
-                android:paddingRight="@dimen/by_line_margin"
+                android:paddingStart="@dimen/by_line_margin"
+                android:paddingEnd="@dimen/by_line_margin"
                 android:paddingTop="@dimen/by_line_margin"
                 android:textSize="@dimen/detail_by_line_text_size" />
 
@@ -116,8 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/by_line_margin"
-                android:paddingLeft="@dimen/by_line_margin"
-                android:paddingRight="@dimen/by_line_margin"
+                android:paddingStart="@dimen/by_line_margin"
+                android:paddingEnd="@dimen/by_line_margin"
                 android:paddingTop="@dimen/by_line_margin"
                 android:textSize="@dimen/detail_by_line_text_size" />
 
@@ -127,8 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/by_line_margin"
-                android:paddingLeft="@dimen/by_line_margin"
-                android:paddingRight="@dimen/by_line_margin"
+                android:paddingStart="@dimen/by_line_margin"
+                android:paddingEnd="@dimen/by_line_margin"
                 android:paddingTop="@dimen/by_line_margin"
                 android:textSize="@dimen/detail_by_line_text_size" />
 
@@ -138,8 +138,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/by_line_margin"
-                android:paddingLeft="@dimen/by_line_margin"
-                android:paddingRight="@dimen/by_line_margin"
+                android:paddingStart="@dimen/by_line_margin"
+                android:paddingEnd="@dimen/by_line_margin"
                 android:paddingTop="@dimen/by_line_margin"
                 android:textSize="@dimen/detail_by_line_text_size" />
 
@@ -150,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
                 android:paddingBottom="@dimen/by_line_margin"
-                android:paddingLeft="@dimen/by_line_margin"
-                android:paddingRight="@dimen/by_line_margin"
+                android:paddingStart="@dimen/by_line_margin"
+                android:paddingEnd="@dimen/by_line_margin"
                 android:textSize="@dimen/detail_body_text_size" />
         </LinearLayout>
     </ScrollView>
